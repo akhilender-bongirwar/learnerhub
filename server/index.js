@@ -5,8 +5,11 @@ const db = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 dotenv.config();
 db.connect();
+const cookieParser = require("cookie-parser");
 
 app.use(express.json());
+app.use(cookieParser());
+
 app.use("/user", userRoutes);
 
 const port = process.env.PORT || 9000;

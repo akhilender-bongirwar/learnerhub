@@ -35,10 +35,13 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     additionalDetails: {
-      type:mongoose.Schema.Types.ObjectId,
-      required:true,
-      ref:"Profile"
-    }
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Profile",
+    },
+    token: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
