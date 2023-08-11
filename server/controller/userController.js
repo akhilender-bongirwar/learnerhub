@@ -69,8 +69,51 @@ const createUser = async (req, res) => {
     });
   }
 };
-const loginUser = (req, res) => {
-  
+
+const loginUser = async (req, res) => {
+  try{
+    const{
+        email,
+        password,
+    } = req.body;
+
+    if( !email || !password ){
+        return res.status(403).json({
+            success:false,
+            message:"ALL FIELDS ARE REQUIRED",
+        });
+    }
+
+    const user = await User.findOne({email}).populate("additionalDetails");
+    if(!user){
+        return res.status(401).json({
+            success:false,
+            message:"user is not registered !!",
+        });
+    }
+
+    if(await bcrypt.compare(password, user.password)) {
+        const payload = {
+            email: user.email,
+            id: user._id,
+            accountType:user.accountType,
+        }
+    
+    }
+    else{
+        return res.status(401).json({
+            success:false,
+            message:"password doesnt matched !!",
+        });
+    }
+
+} catch(error){
+    console.log(error);
+    return res.status(500).json({
+        success:false,
+        message:"user cannot login, please try again ",
+    }) 
+}
 };
 
 module.exports = { createUser, loginUser };
